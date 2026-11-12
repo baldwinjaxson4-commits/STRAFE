@@ -52,7 +52,8 @@ test('every course has a continuous jump-reachable mainline from start through f
 });
 test('Terminal course opening jump remains reachable after widening the first pads',()=>{
  const platforms=makePlatforms(courses.find(course=>course.id==='terminal'));
- assert.ok(platforms[0].d>13);
+ assert.ok(platforms[0].d>15);
+ assert.ok(platforms[0].w>8);
  assert.ok(platforms[1].d>3.5);
  assert.ok(platforms[1].w>2.15);
  assert.ok(canLandWithJump(platforms[0],platforms[1]));

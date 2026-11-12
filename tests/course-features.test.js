@@ -56,16 +56,21 @@ test('every course has a distinct description, palette, route layout, and obstac
  const descriptions=courses.map(course=>course.description);
  const palettes=courses.map(course=>`${course.color}:${course.surface}:${course.water}:${course.sky}`);
  const routes=courses.map(course=>JSON.stringify(makePlatforms(course)));
- const obstacles=courses.map(course=>JSON.stringify(makeSlideObstacles(course,makePlatforms(course))));
+ const routePatterns=courses.map(course=>course.routePattern);
+ const starts=courses.map(course=>course.startSize.join(':'));
+ const obstacles=courses.map(course=>JSON.stringify(makeSlideObstacles(course,makePlatforms(course)).map(({kind,x,z,w,d,bottom,top})=>({kind,x,z,w,d,bottom,top}))));
  for(const [label,values] of [['description',descriptions],['palette',palettes],['route',routes],['obstacle pattern',obstacles]]){
   assert.equal(new Set(values).size,courses.length,`each course has a unique ${label}`);
  }
+ assert.equal(new Set(routePatterns).size,courses.length,'each course has its own designed path');
+ assert.equal(new Set(starts).size,courses.length,'each course has its own starting platform footprint');
  const obstacleKinds=[...new Set(courses.flatMap(course=>makeSlideObstacles(course,makePlatforms(course)).map(obstacle=>obstacle.kind)))].sort();
  assert.deepEqual(obstacleKinds,['arch-beam','arch-post','hurdle','pylon','slide','weave']);
 });
 test('Terminal opens with an extended start and landing platform',()=>{
  const course=courses.find(item=>item.id==='terminal'),[start,first]=makePlatforms(course);
- assert.ok(start.d>13);
+ assert.ok(start.d>15);
+ assert.ok(start.w>8);
  assert.ok(first.d>course.width+1.2);
  assert.ok(first.w>course.width);
  assert.ok(Math.abs(first.x)<1e-8);

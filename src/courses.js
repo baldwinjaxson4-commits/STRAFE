@@ -1,33 +1,33 @@
 const FORWARD_RUNWAY=1.2;
 const levelDesigns={
-  'movement-lab':{path:'2340123421432143',sizes:'4321432143214321',slides:[6,10],styles:'00',moving:[9],gaps:[],phase:0,frequency:.31},
-  coastline:{path:'2233444433221100',sizes:'4433221144332211',slides:[4,9,12],styles:'034',moving:[7],gaps:[],phase:.19,frequency:.27},
-  breakwater:{path:'2233443322110011',sizes:'1234123412341234',slides:[6,12,14],styles:'124',moving:[8,13],gaps:[11],phase:.41,frequency:.34},
-  'wall-school':{path:'2222333344443333',sizes:'1111222233334444',slides:[4,9,13],styles:'000',moving:[7,12],gaps:[],phase:.63,frequency:.23},
-  overpass:{path:'2233443322112233',sizes:'3142314231423142',slides:[5,11,14],styles:'132',moving:[12,16],gaps:[9],phase:.82,frequency:.29},
-  tideline:{path:'2233442211002233',sizes:'2413241324132413',slides:[6,13,17],styles:'203',moving:[8,15],gaps:[10],phase:1.04,frequency:.38},
-  aqueduct:{path:'2233221100112233',sizes:'4321432143214321',slides:[5,11,18],styles:'132',moving:[9,17],gaps:[14],phase:1.23,frequency:.25},
-  driftworks:{path:'2233443322001122',sizes:'1324132413241324',slides:[7,16,21],styles:'210',moving:[10,18],gaps:[12,19],phase:1.47,frequency:.32},
-  'glacier-run':{path:'2233443322110011',sizes:'4231423142314231',slides:[5,10,15],styles:'243',moving:[8,16],gaps:[12,18],phase:1.68,frequency:.22},
-  afterglow:{path:'2233334444332211',sizes:'3412341234123412',slides:[6,15,19],styles:'301',moving:[9,17],gaps:[11],phase:1.91,frequency:.36},
-  cinder:{path:'2233442211334400',sizes:'2143214321432143',slides:[5,12,20],styles:'120',moving:[8,16],gaps:[14,21],phase:2.13,frequency:.26},
-  skyline:{path:'2233223344554433',sizes:'3214321432143214',slides:[7,14,21],styles:'032',moving:[10,18],gaps:[12,19],phase:2.34,frequency:.33},
-  switchback:{path:'2233440011224433',sizes:'1432143214321432',slides:[6,12,18],styles:'214',moving:[8,16],gaps:[11,20],phase:2.56,frequency:.24},
-  crosswind:{path:'2233441100332211',sizes:'4123412341234123',slides:[5,13,22],styles:'302',moving:[9,17,23],gaps:[10,19],phase:2.79,frequency:.39},
-  undertow:{path:'2233110022331100',sizes:'2341234123412341',slides:[8,17,25],styles:'123',moving:[11,20],gaps:[13,22],phase:3.01,frequency:.28},
-  'magma-run':{path:'2233440011332200',sizes:'4312431243124312',slides:[6,15,20],styles:'210',moving:[9,18],gaps:[11,19],phase:3.22,frequency:.35},
-  foundry:{path:'2233001122330011',sizes:'1243124312431243',slides:[5,14,22],styles:'031',moving:[7,19],gaps:[10,17,23],phase:3.44,frequency:.21},
-  'signal-garden':{path:'2233442211330022',sizes:'3421342134213421',slides:[6,16,24],styles:'203',moving:[9,18,25],gaps:[12,20],phase:3.67,frequency:.37},
-  highwire:{path:'2233444455443322',sizes:'1133113311331133',slides:[7,17,23],styles:'124',moving:[10,19],gaps:[12,21],phase:3.89,frequency:.3},
-  razorline:{path:'2233441100112233',sizes:'1111222233332222',slides:[6,15,23],styles:'320',moving:[8,17,24],gaps:[11,19],phase:4.1,frequency:.2},
-  'neon-spine':{path:'2233223344332211',sizes:'2413241324132413',slides:[6,15,24],styles:'103',moving:[9,20,27],gaps:[12,21],phase:4.32,frequency:.4},
-  monolith:{path:'2233443322003344',sizes:'3241324132413241',slides:[8,18,26],styles:'231',moving:[11,21],gaps:[13,23],phase:4.55,frequency:.27},
-  nightshift:{path:'2233002211443322',sizes:'2134213421342134',slides:[7,19,28],styles:'012',moving:[10,21],gaps:[12,24],phase:4.77,frequency:.34},
-  canopy:{path:'2233442211003344',sizes:'4321432143214321',slides:[6,15,25],styles:'310',moving:[9,18,26],gaps:[12,22],phase:4.98,frequency:.23},
-  terminal:{path:'2223344433221100',sizes:'4132413241324132',slides:[8,20,29],styles:'230',moving:[11,23,30],gaps:[14,25],startDepthBonus:2.4,firstDepthBonus:2.4,firstWidthBonus:1.2,phase:5.2,frequency:.31},
-  'endless-blue':{path:'223344332211004433221100',sizes:'142314231423142314231423',slides:[7,18,30,37],styles:'1032',moving:[10,22,34],gaps:[13,25,36],phase:5.43,frequency:.26},
-  'zero-margin':{path:'223344001122334455443322',sizes:'111211121112111211121112',slides:[8,17,27,33],styles:'3210',moving:[11,21,31],gaps:[12,23,32],phase:5.65,frequency:.38},
-  'orbit-breaker':{path:'223300112233445544332211',sizes:'314231423142314231423142',slides:[6,16,27,34],styles:'2013',moving:[10,24,32],gaps:[13,22,31],phase:5.87,frequency:.22},
+  'movement-lab':{path:'2340123421432143',sizes:'4321432143214321',start:[9.5,9],slides:[6,10],styles:'00',moving:[9],gaps:[],phase:0,frequency:.31},
+  coastline:{path:'222233334444333322221111',sizes:'4433221144332211',start:[8,8],slides:[4,9,12],styles:'034',moving:[7],gaps:[],phase:.19,frequency:.27},
+  breakwater:{path:'040404242424202040404024',sizes:'1234123412341234',start:[6.5,9.5],slides:[6,12,14],styles:'124',moving:[8,13],gaps:[11],phase:.41,frequency:.34},
+  'wall-school':{path:'222223333444444433332222',sizes:'1111222233334444',start:[7,7],slides:[4,9,13],styles:'000',moving:[7,12],gaps:[],phase:.63,frequency:.23},
+  overpass:{path:'012344443210123321012344',sizes:'3142314231423142',start:[10,6.5],slides:[5,11,14],styles:'132',moving:[12,16],gaps:[9],phase:.82,frequency:.29},
+  tideline:{path:'420242024202024202420242',sizes:'2413241324132413',start:[6,10],slides:[6,13,17],styles:'203',moving:[8,15],gaps:[10],phase:1.04,frequency:.38},
+  aqueduct:{path:'222444000222444000222444',sizes:'4321432143214321',start:[7.5,11],slides:[5,11,18],styles:'132',moving:[9,17],gaps:[14],phase:1.23,frequency:.25},
+  driftworks:{path:'024433210024433210024433',sizes:'1324132413241324',start:[6.5,7],slides:[7,16,21],styles:'210',moving:[10,18],gaps:[12,19],phase:1.47,frequency:.32},
+  'glacier-run':{path:'444333222111000111222333',sizes:'4231423142314231',start:[9,7],slides:[5,10,15],styles:'243',moving:[8,16],gaps:[12,18],phase:1.68,frequency:.22},
+  afterglow:{path:'001122334444332211001122',sizes:'3412341234123412',start:[8.5,6],slides:[6,15,19],styles:'301',moving:[9,17],gaps:[11],phase:1.91,frequency:.36},
+  cinder:{path:'444420000444420000444420',sizes:'2143214321432143',start:[6,11],slides:[5,12,20],styles:'120',moving:[8,16],gaps:[14,21],phase:2.13,frequency:.26},
+  skyline:{path:'012301234012340123012340',sizes:'3214321432143214',start:[7,8],slides:[7,14,21],styles:'032',moving:[10,18],gaps:[12,19],phase:2.34,frequency:.33},
+  switchback:{path:'440022004400220044002200',sizes:'1432143214321432',start:[8.5,5.5],slides:[6,12,18],styles:'214',moving:[8,16],gaps:[11,20],phase:2.56,frequency:.24},
+  crosswind:{path:'023401234032104321023410',sizes:'4123412341234123',start:[9,6.5],slides:[5,13,22],styles:'302',moving:[9,17,23],gaps:[10,19],phase:2.79,frequency:.39},
+  undertow:{path:'444400002222000044440000',sizes:'2341234123412341',start:[6,9.5],slides:[8,17,25],styles:'123',moving:[11,20],gaps:[13,22],phase:3.01,frequency:.28},
+  'magma-run':{path:'024024024240240240242402',sizes:'4312431243124312',start:[6,7],slides:[6,15,20],styles:'210',moving:[9,18],gaps:[11,19],phase:3.22,frequency:.35},
+  foundry:{path:'222400224400222400224400',sizes:'1243124312431243',start:[8.2,6.3],slides:[5,14,22],styles:'031',moving:[7,19],gaps:[10,17,23],phase:3.44,frequency:.21},
+  'signal-garden':{path:'013423104310234123102341',sizes:'3421342134213421',start:[6.7,10.2],slides:[6,16,24],styles:'203',moving:[9,18,25],gaps:[12,20],phase:3.67,frequency:.37},
+  highwire:{path:'000011112222333344440000',sizes:'1133113311331133',start:[5,8],slides:[7,17,23],styles:'124',moving:[10,19],gaps:[12,21],phase:3.89,frequency:.3},
+  razorline:{path:'404030201020304040303020',sizes:'1111222233332222',start:[5.5,6],slides:[6,15,23],styles:'320',moving:[8,17,24],gaps:[11,19],phase:4.1,frequency:.2},
+  'neon-spine':{path:'012343210123432101234321',sizes:'2413241324132413',start:[7.5,5.5],slides:[6,15,24],styles:'103',moving:[9,20,27],gaps:[12,21],phase:4.32,frequency:.4},
+  monolith:{path:'444422220000222244442222',sizes:'3241324132413241',start:[9,8],slides:[8,18,26],styles:'231',moving:[11,21],gaps:[13,23],phase:4.55,frequency:.27},
+  nightshift:{path:'000022224444222200002222',sizes:'2134213421342134',start:[6.3,10.5],slides:[7,19,28],styles:'012',moving:[10,21],gaps:[12,24],phase:4.77,frequency:.34},
+  canopy:{path:'020242424202020242424202',sizes:'4321432143214321',start:[8.4,6.3],slides:[6,15,25],styles:'310',moving:[9,18,26],gaps:[12,22],phase:4.98,frequency:.23},
+  terminal:{path:'222333444432210123443322',sizes:'4132413241324132',start:[9,15],slides:[8,20,29],styles:'230',moving:[11,23,30],gaps:[14,25],startDepthBonus:2.4,firstDepthBonus:2.4,firstWidthBonus:1.2,phase:5.2,frequency:.31},
+  'endless-blue':{path:'024202420242024202420242',sizes:'142314231423142314231423',start:[8,10],slides:[7,18,30,37],styles:'1032',moving:[10,22,34],gaps:[13,25,36],phase:5.43,frequency:.26},
+  'zero-margin':{path:'223344001122334455443322',sizes:'111211121112111211121112',start:[5,6],slides:[8,17,27,33],styles:'3210',moving:[11,21,31],gaps:[12,23,32],phase:5.65,frequency:.38},
+  'orbit-breaker':{path:'420013324200133242001332',sizes:'314231423142314231423142',start:[7,8.5],slides:[6,16,27,34],styles:'2013',moving:[10,24,32],gaps:[13,22,31],phase:5.87,frequency:.22},
 };
 const descriptions={
   'movement-lab':'A marked-out practice course: build speed, switch lanes, then learn to wall-run.',
@@ -104,6 +104,7 @@ export const courses = roster.map(([id,name,difficulty,count,width,spacing,ampli
   routeFrequency:levelDesigns[id].frequency,
   routePattern:levelDesigns[id].path,
   sizePattern:levelDesigns[id].sizes,
+  startSize:levelDesigns[id].start,
   obstaclePattern:levelDesigns[id].styles,
   gapSections:levelDesigns[id].gaps,
   startDepthBonus:levelDesigns[id].startDepthBonus??0,
@@ -139,7 +140,7 @@ export const courses = roster.map(([id,name,difficulty,count,width,spacing,ampli
   medals:(()=>{const gold=count*(spacing*.075+.72)+2+(wallTier===3?Math.ceil(count/6)*.5:0);return{gold,silver:gold*1.22,bronze:gold*1.5};})(),
   description:descriptions[id],
   // A layout version prevents an old replay racing a changed map.
-  version:6,
+  version:7,
 }));
 export function courseLayoutVersion(course){
   const platforms=makePlatforms(course);
@@ -150,14 +151,14 @@ export function courseLayoutVersion(course){
   ]);
 }
 export function makePlatforms(course){
-  const result=[{x:0,z:5,y:0,w:11,d:13+course.startDepthBonus,type:'start',index:0}];
+  const result=[{x:0,z:5,y:0,w:course.startSize[0],d:course.startSize[1]+course.startDepthBonus,type:'start',index:0}];
   let z=5;
   for(let i=1;i<=course.count;i++){
     const extended=course.wallTier===3&&i>=4&&i%6===0;
     z-=extended?13:course.spacing+(course.gapSections.includes(i) ? 0.8 : 0);
     const lane=Math.max(-2,Math.min(2,profileValue(course.routePattern,i,course.count)-2));
     const drift=(Math.sin((i-1)*course.routeFrequency+course.routePhase)-Math.sin(course.routePhase))*course.amplitude*.025;
-    const x=lane*course.amplitude*.38+drift;
+    const x=lane*course.amplitude*.62+drift;
     const checkpoint=i%5===0;
     const y=course.pattern==='stairs'?Math.floor((i%12)/3)*.28+Math.floor(i/12)*.3:Math.min(i*course.raise,3.5);
     const size=.72+profileValue(course.sizePattern,i,course.count)*.11;
