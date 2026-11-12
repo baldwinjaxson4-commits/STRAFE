@@ -1,12 +1,69 @@
-const palettes = [
-  [0x8bf4c5, 0x225b68, 0x97c3d7], [0xf6c58b, 0x374957, 0x9aafb9],
-  [0xcfacff, 0x323953, 0x999dbf], [0x79d8ff, 0x18485c, 0x8ab6ce],
-  [0xff91aa, 0x4e354d, 0xbba1b8], [0xffdc72, 0x38575c, 0xb5c5c8],
-];
 const FORWARD_RUNWAY=1.2;
-const movingSections={
-  overpass:[12,16],switchback:[8,16],aqueduct:[9,17],nightshift:[10,21],terminal:[11,23],
+const levelDesigns={
+  'movement-lab':{slides:[6],moving:[9],gaps:[],phase:0,frequency:.31},
+  coastline:{slides:[4,9],moving:[7],gaps:[],phase:.19,frequency:.27},
+  breakwater:{slides:[6,12],moving:[8,13],gaps:[11],phase:.41,frequency:.34},
+  'wall-school':{slides:[4,9,13],moving:[7,12],gaps:[],phase:.63,frequency:.23},
+  overpass:{slides:[5,14],moving:[12,16],gaps:[9],phase:.82,frequency:.29},
+  tideline:{slides:[6,13,17],moving:[8,15],gaps:[10],phase:1.04,frequency:.38},
+  aqueduct:{slides:[5,11,18],moving:[9,17],gaps:[14],phase:1.23,frequency:.25},
+  driftworks:{slides:[7,16,21],moving:[10,18],gaps:[12,19],phase:1.47,frequency:.32},
+  'glacier-run':{slides:[5,15],moving:[8,16],gaps:[12,18],phase:1.68,frequency:.22},
+  afterglow:{slides:[6,15,19],moving:[9,17],gaps:[11],phase:1.91,frequency:.36},
+  cinder:{slides:[5,12,20],moving:[8,16],gaps:[14,21],phase:2.13,frequency:.26},
+  skyline:{slides:[7,14,21],moving:[10,18],gaps:[12,19],phase:2.34,frequency:.33},
+  switchback:{slides:[6,18],moving:[8,16],gaps:[11,20],phase:2.56,frequency:.24},
+  crosswind:{slides:[5,13,22],moving:[9,17,23],gaps:[10,19],phase:2.79,frequency:.39},
+  undertow:{slides:[8,17,25],moving:[11,20],gaps:[13,22],phase:3.01,frequency:.28},
+  'magma-run':{slides:[6,15,20],moving:[9,18],gaps:[11,19],phase:3.22,frequency:.35},
+  foundry:{slides:[5,14,22],moving:[7,19],gaps:[10,17,23],phase:3.44,frequency:.21},
+  'signal-garden':{slides:[6,16,24],moving:[9,18,25],gaps:[12,20],phase:3.67,frequency:.37},
+  highwire:{slides:[7,17,23],moving:[10,19],gaps:[12,21],phase:3.89,frequency:.3},
+  razorline:{slides:[6,15,23],moving:[8,17,24],gaps:[11,19],phase:4.1,frequency:.2},
+  'neon-spine':{slides:[6,15,24],moving:[9,20,27],gaps:[12,21],phase:4.32,frequency:.4},
+  monolith:{slides:[8,18,26],moving:[11,21],gaps:[13,23],phase:4.55,frequency:.27},
+  nightshift:{slides:[7,19,28],moving:[10,21],gaps:[12,24],phase:4.77,frequency:.34},
+  canopy:{slides:[6,15,25],moving:[9,18,26],gaps:[12,22],phase:4.98,frequency:.23},
+  terminal:{slides:[8,20,29],moving:[11,23,30],gaps:[14,25],phase:5.2,frequency:.31},
+  'endless-blue':{slides:[7,18,30,37],moving:[10,22,34],gaps:[13,25,36],phase:5.43,frequency:.26},
+  'zero-margin':{slides:[8,17,27,33],moving:[11,21,31],gaps:[12,23,32],phase:5.65,frequency:.38},
+  'orbit-breaker':{slides:[6,16,27,34],moving:[10,24,32],gaps:[13,22,31],phase:5.87,frequency:.22},
 };
+const descriptions={
+  'movement-lab':'A marked-out practice course: build speed, switch lanes, then learn to wall-run.',
+  coastline:'A broad seaside warm-up with long, forgiving arcs and scattered low gates.',
+  breakwater:'Short, punchy crossings weave between offset sea walls and exposed gaps.',
+  'wall-school':'A straight approach breaks into a wall-run corridor built for deliberate transfers.',
+  overpass:'Thread beneath a layered highway, ducking beams before the route swings wide.',
+  tideline:'A rolling shoreline slalom with drifting pads and a rhythm of tight turns.',
+  aqueduct:'Run the covered waterway, ducking through roofed channels between raised basins.',
+  driftworks:'A scrapyard of offset catwalks, broad sweeps, and shifting metal decks.',
+  'glacier-run':'Cut across slick ice shelves, moving floes, and narrow frozen crests.',
+  afterglow:'A sunset rooftop route of broad curves, staggered heights, and warm-lit gates.',
+  cinder:'Cross a scorched quarry where tight ledges skirt the ash pits.',
+  skyline:'Climb a stepped skyline, chaining elevated rooftops into a sharp final ascent.',
+  switchback:'Alternate sides across a mountain pass, with a risky detour on the inside line.',
+  crosswind:'Fight gust-like lateral shifts across a sequence of exposed, narrow spans.',
+  undertow:'Drop into a submerged service trench, then climb out through close-set walls.',
+  'magma-run':'Thread basalt switchbacks above a glowing lava sea and timed moving ledges.',
+  foundry:'Cut through a furnace hall of steel walkways and moving machinery.',
+  'signal-garden':'Follow a branching neon garden among luminous pylons and wall-run lanes.',
+  highwire:'A narrow high-altitude sprint with little room to correct a missed landing.',
+  razorline:'A fast, alternating knife-edge route where every transfer demands precision.',
+  'neon-spine':'Scale a luminous central spine, jumping between sharply offset light decks.',
+  monolith:'Circle massive dark pillars on a heavy, deliberate sequence of isolated pads.',
+  nightshift:'Race through a closed industrial district of roofed passages and moving lights.',
+  canopy:'Leap between emerald platforms woven through a bioluminescent forest.',
+  terminal:'A long switchback gauntlet through a packed transit hub and its moving platforms.',
+  'endless-blue':'An extended ocean crossing with rolling lines, long gaps, and few safe pauses.',
+  'zero-margin':'The tightest route in the set: thin stairs, close gates, and almost no recovery space.',
+  'orbit-breaker':'Navigate orbital stations, airlocks, and suspended routes above the planet.',
+};
+function hslHex(h,s,l){
+  const c=(1-Math.abs(2*l-1))*s,x=c*(1-Math.abs((h/60)%2-1)),m=l-c/2;
+  const [r,g,b]=h<60?[c,x,0]:h<120?[x,c,0]:h<180?[0,c,x]:h<240?[0,x,c]:h<300?[x,0,c]:[c,0,x];
+  return Number.parseInt([r,g,b].map(value=>Math.round((value+m)*255).toString(16).padStart(2,'0')).join(''),16);
+}
 const roster = [
   ['movement-lab','Movement Lab','INTRO',12,4.8,6.6,3.8,'training',2],
   ['coastline','Coastline','INTRO',14,4.6,7.2,2.5,'sine',0],
@@ -39,32 +96,40 @@ const roster = [
 ];
 export const courses = roster.map(([id,name,difficulty,count,width,spacing,amplitude,pattern,wallTier],i)=>({
   id,name,difficulty,count,width,spacing,amplitude,pattern,wallTier,
+  routePhase:levelDesigns[id].phase,
+  routeFrequency:levelDesigns[id].frequency,
+  gapSections:levelDesigns[id].gaps,
+  scenerySeed:i*.73,
   training:id==='movement-lab',
   environment:({
     'magma-run':'volcanic','signal-garden':'neon','glacier-run':'arctic',
     foundry:'industrial',canopy:'canopy','orbit-breaker':'orbital',
   })[id]??'coastal',
-  tunnels:id==='aqueduct'?[6,7,8]:id==='terminal'?[12,13,14]:id==='orbit-breaker'?[9,10,11]:[],
-  indoor:id==='overpass'?[6,7,8]:id==='nightshift'?[14,15,16]:id==='foundry'?[8,9,10]:[],
-  movingSections:movingSections[id]??(id==='glacier-run'?[8,16]:id==='foundry'?[7,19]:id==='orbit-breaker'?[10,24,32]:[]),
+  movingSections:levelDesigns[id].moving,
   alternateRoutes:id==='switchback'?[8]:id==='endless-blue'?[12,28]:id==='canopy'?[12,22]:[],
+  tunnels:id==='aqueduct'?[6,7,8]:id==='terminal'?[12,13,14]:id==='orbit-breaker'?[9,10,11]:id==='undertow'?[9,10,11]:[],
+  indoor:id==='overpass'?[6,7,8]:id==='nightshift'?[14,15,16]:id==='foundry'?[8,9,10]:id==='aqueduct'?[15,16]:[],
   color:({
     'magma-run':0xff7048,'signal-garden':0xc783ff,'glacier-run':0x8beaff,
     foundry:0xffbc62,canopy:0x9df078,'orbit-breaker':0x9e8cff,
-  })[id]??palettes[i%palettes.length][0],
+  })[id]??hslHex((i*137.508+24)%360,.72,.61),
+  surface:hslHex((i*137.508+24)%360,.12,.58),
+  darkSurface:hslHex((i*137.508+204)%360,.25,.24),
+  surfaceRoughness:.35+(i%7)*.09,
+  surfaceMetalness:(i%6)*.08,
   water:({
     'magma-run':0x481d26,'signal-garden':0x192f55,'glacier-run':0x16485d,
     foundry:0x43332a,canopy:0x124b43,'orbit-breaker':0x171b42,
-  })[id]??palettes[i%palettes.length][1],
+  })[id]??hslHex((i*137.508+224)%360,.48,.2),
   sky:({
     'magma-run':0x583744,'signal-garden':0x58638f,'glacier-run':0x9bd5e2,
     foundry:0x685346,canopy:0x598770,'orbit-breaker':0x3c477f,
-  })[id]??palettes[i%palettes.length][2],
+  })[id]??hslHex((i*137.508+59)%360,.35,.72),
   raise:i<3?[.10,.12,.13][i]:.1+(i%3)*.035,
   medals:(()=>{const gold=count*(spacing*.075+.72)+2+(wallTier===3?Math.ceil(count/6)*.5:0);return{gold,silver:gold*1.22,bronze:gold*1.5};})(),
-  description:id==='movement-lab'?'Training: build speed, air-strafe between marked pads, then kick off a wall.':id==='magma-run'?'Thread basalt switchbacks above a glowing lava sea.':id==='signal-garden'?'Neon-lit platforms, luminous towers and extended wall runs.':id==='terminal'?'Sharp switchbacks, moving pads and extended wall-run gaps.':id==='aqueduct'?'Follow the aqueduct through indoor tunnels and moving pads.':id==='glacier-run'?'Skate across blue ice shelves and shifting frozen pads.':id==='foundry'?'Cut through a furnace hall of steel walkways and moving machinery.':id==='canopy'?'Leap between emerald platforms woven through a bioluminescent forest.':id==='orbit-breaker'?'Navigate orbital stations, airlocks, and suspended zero-g routes.':wallTier===3?'Extended wall gaps. Commit to the run.':wallTier===2?'Wall-run lanes and precision landings.':wallTier?'Tight turns between concrete walls.':'Build momentum and find your line.',
+  description:descriptions[id],
   // A layout version prevents an old replay racing a changed map.
-  version:5,
+  version:6,
 }));
 export function courseLayoutVersion(course){
   const platforms=makePlatforms(course);
@@ -79,7 +144,7 @@ export function makePlatforms(course){
   let z=5;
   for(let i=1;i<=course.count;i++){
     const extended=course.wallTier===3&&i>=4&&i%6===0;
-    z-=extended?13:course.spacing;
+    z-=extended?13:course.spacing+(course.gapSections.includes(i) ? 0.8 : 0);
     let x=Math.sin(i*.58)*course.amplitude;
     if(course.pattern==='straight')x=0;
     if(course.pattern==='sweep')x=Math.sin(i*.28)*course.amplitude;
@@ -87,6 +152,9 @@ export function makePlatforms(course){
     if(course.pattern==='switchback')x=(i%2?1:-1)*course.amplitude;
     if(course.pattern==='training'){
       x=i<=1?0:i<=4?(i%2?1:-1)*course.amplitude*.72:i<=7?(i%2?-1:1)*course.amplitude*.7:Math.sin(i*.9)*course.amplitude*.72;
+    }
+    if(course.pattern!=='training'&&course.pattern!=='straight'){
+      x+=Math.sin(i*course.routeFrequency+course.routePhase)*course.amplitude*.08;
     }
     const checkpoint=i%5===0;
     const y=course.pattern==='stairs'?Math.floor((i%12)/3)*.28+Math.floor(i/12)*.3:Math.min(i*course.raise,3.5);
@@ -146,14 +214,8 @@ export function makeWalls(course,platforms){
   }
   return walls;
 }
-const slideSections={
-  coastline:[5,10],breakwater:[5,10],'wall-school':[5,10,14],tideline:[6,13],
-  aqueduct:[7,15],driftworks:[6,13,20],undertow:[7,15,23],nightshift:[8,17,26],
-  'zero-margin':[9,19,29],
-};
 export function makeSlideObstacles(course,platforms){
-  const generated=Array.from({length:Math.ceil((course.count-4)/5)},(_,i)=>4+i*5);
-  const sections=new Set([...(slideSections[course.id]??[]),...generated]);
+  const sections=new Set(levelDesigns[course.id]?.slides??[]);
   return [...sections].sort((a,b)=>a-b).flatMap(index=>{
     const platform=platforms[index];
     if(!platform)return [];

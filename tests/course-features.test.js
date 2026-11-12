@@ -52,6 +52,15 @@ test('the four new courses have distinct themed environments and maintain diffic
  const expected=[['glacier-run','FLOW','arctic'],['foundry','TECH','industrial'],['canopy','EXPERT','canopy'],['orbit-breaker','MASTER','orbital']];
  for(const [id,difficulty,environment] of expected){const course=courses.find(item=>item.id===id);assert.ok(course);assert.equal(course.difficulty,difficulty);assert.equal(course.environment,environment);assert.ok(course.description.length>20);}
 });
+test('every course has a distinct description, palette, route layout, and obstacle pattern',()=>{
+ const descriptions=courses.map(course=>course.description);
+ const palettes=courses.map(course=>`${course.color}:${course.surface}:${course.water}:${course.sky}`);
+ const routes=courses.map(course=>JSON.stringify(makePlatforms(course)));
+ const obstacles=courses.map(course=>JSON.stringify(makeSlideObstacles(course,makePlatforms(course)).map(obstacle=>obstacle.index)));
+ for(const [label,values] of [['description',descriptions],['palette',palettes],['route',routes],['obstacle pattern',obstacles]]){
+  assert.equal(new Set(values).size,courses.length,`each course has a unique ${label}`);
+ }
+});
 test('powerup placements alternate types and avoid slide gates and moving pads',()=>{
  for(const course of courses){
   const platforms=makePlatforms(course),powerups=makePowerups(course,platforms),gates=makeSlideObstacles(course,platforms);
