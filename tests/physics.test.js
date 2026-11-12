@@ -107,26 +107,34 @@ test('sliding still adds momentum but no longer causes an oversized speed spike'
  assert.ok(speed<22);
  assert.equal(PHYSICS.slideBoost,1.08);
 });
-test('selected courses receive low-clearance obstacles at valid platform positions',()=>{
+test('courses receive varied solid obstacles at valid platform positions',()=>{
  const course=courses.find(c=>c.id==='wall-school'),platforms=makePlatforms(course),obstacles=makeSlideObstacles(course,platforms);
  assert.ok(obstacles.length>=3);assert.ok(obstacles.every(o=>o.kind==='slide'&&o.bottom>platforms[o.index].y&&o.top>o.bottom));
  for(const course of courses){
   const platforms=makePlatforms(course),obstacles=makeSlideObstacles(course,platforms);
   assert.ok(obstacles.length>=2,`${course.name} should offer multiple slide obstacles`);
-  assert.ok(obstacles.every(o=>o.index<course.count&&o.bottom>platforms[o.index].y));
+  assert.ok(obstacles.every(o=>o.index<course.count&&o.top>o.bottom));
+  for(const obstacle of obstacles){
+   const platform=platforms[obstacle.index];
+   if(obstacle.kind==='slide')assert.ok(obstacle.bottom>platform.y&&obstacle.top>platform.y);
+   if(obstacle.kind==='hurdle')assert.ok(obstacle.bottom<=platform.y&&obstacle.top>platform.y);
+   if(['pylon','weave','arch-post'].includes(obstacle.kind))assert.equal(obstacle.bottom,platform.y);
+   if(obstacle.kind==='arch-beam')assert.ok(obstacle.bottom>platform.y);
+  }
  }
 });
 test('course platforms add forward runway without shifting their approach edges',()=>{
  const course=courses.find(c=>c.id==='wall-school'),platforms=makePlatforms(course);
  for(let i=1;i<platforms.length-1;i++){
   const platform=platforms[i],checkpoint=platform.type==='checkpoint';
-  const originalDepth=course.width+(checkpoint?1.4:0);
+  const profileIndex=Math.round((i-1)*(course.sizePattern.length-1)/(course.count-1));
+  const originalDepth=course.width*(.72+Number(course.sizePattern[profileIndex])*.11)+(checkpoint?1.4:0);
   assert.ok(Math.abs(platform.d-(originalDepth+1.2))<1e-9);
   assert.ok(Math.abs(platform.z+platform.d/2-(5-i*course.spacing+originalDepth/2))<1e-9);
  }
  for(const obstacle of makeSlideObstacles(course,platforms)){
-  const platform=platforms[obstacle.index],originalDepth=course.width+(platform.type==='checkpoint'?1.4:0);
+  const platform=platforms[obstacle.index];
   const runwayAfterGate=obstacle.z-obstacle.d/2-(platform.z-platform.d/2);
-  assert.ok(Math.abs(runwayAfterGate-(originalDepth/2+.6))<1e-9);
+  assert.ok(Math.abs(runwayAfterGate-(platform.d/2+.6-obstacle.d/2))<1e-9);
  }
 });

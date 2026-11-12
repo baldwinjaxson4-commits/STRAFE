@@ -56,10 +56,19 @@ test('every course has a distinct description, palette, route layout, and obstac
  const descriptions=courses.map(course=>course.description);
  const palettes=courses.map(course=>`${course.color}:${course.surface}:${course.water}:${course.sky}`);
  const routes=courses.map(course=>JSON.stringify(makePlatforms(course)));
- const obstacles=courses.map(course=>JSON.stringify(makeSlideObstacles(course,makePlatforms(course)).map(obstacle=>obstacle.index)));
+ const obstacles=courses.map(course=>JSON.stringify(makeSlideObstacles(course,makePlatforms(course))));
  for(const [label,values] of [['description',descriptions],['palette',palettes],['route',routes],['obstacle pattern',obstacles]]){
   assert.equal(new Set(values).size,courses.length,`each course has a unique ${label}`);
  }
+ const obstacleKinds=[...new Set(courses.flatMap(course=>makeSlideObstacles(course,makePlatforms(course)).map(obstacle=>obstacle.kind)))].sort();
+ assert.deepEqual(obstacleKinds,['arch-beam','arch-post','hurdle','pylon','slide','weave']);
+});
+test('Terminal opens with an extended start and landing platform',()=>{
+ const course=courses.find(item=>item.id==='terminal'),[start,first]=makePlatforms(course);
+ assert.ok(start.d>13);
+ assert.ok(first.d>course.width+1.2);
+ assert.ok(first.w>course.width);
+ assert.ok(Math.abs(first.x)<1e-8);
 });
 test('powerup placements alternate types and avoid slide gates and moving pads',()=>{
  for(const course of courses){

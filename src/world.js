@@ -88,16 +88,33 @@ export class World{
    }
  }
  for(const obstacle of obstacles){
-   this.box(obstacle.w,obstacle.top-obstacle.bottom,obstacle.d,obstacle.x,(obstacle.top+obstacle.bottom)/2,obstacle.z,dark);
-   this.box(obstacle.w+.08,.08,obstacle.d+.08,obstacle.x,obstacle.bottom+.05,obstacle.z,trim);
-   const front=obstacle.z+obstacle.d/2+.045;
-   const stripeCount=Math.max(3,Math.floor(obstacle.w/.55));
-   for(let i=0;i<stripeCount;i++){
-     const x=obstacle.x-obstacle.w/2+(i+.5)*obstacle.w/stripeCount;
-     this.box(.16,.06,.035,x,obstacle.bottom+.25,front,white);
+   const height=obstacle.top-obstacle.bottom,centerY=(obstacle.top+obstacle.bottom)/2;
+   if(obstacle.kind==='pylon'||obstacle.kind==='weave'){
+     const geometry=obstacle.kind==='weave'
+       ?new THREE.ConeGeometry(obstacle.w*.52,height,5)
+       :new THREE.CylinderGeometry(obstacle.w*.48,obstacle.w*.58,height,8);
+     const mesh=new THREE.Mesh(geometry,obstacle.kind==='weave'?trim:dark);
+     mesh.position.set(obstacle.x,centerY,obstacle.z);mesh.castShadow=true;mesh.receiveShadow=true;this.group.add(mesh);
+   }else{
+     this.box(obstacle.w,height,obstacle.d,obstacle.x,centerY,obstacle.z,dark);
+     this.box(obstacle.w+.08,.08,obstacle.d+.08,obstacle.x,obstacle.bottom+.05,obstacle.z,trim);
+     if(obstacle.kind==='slide'||obstacle.kind==='hurdle'||obstacle.kind==='arch-beam'){
+       const stripeCount=Math.max(3,Math.floor(obstacle.w/.55));
+       for(let i=0;i<stripeCount;i++){
+         const x=obstacle.x-obstacle.w/2+(i+.5)*obstacle.w/stripeCount;
+         this.box(.16,.06,.035,x,obstacle.bottom+.25,obstacle.z+obstacle.d/2+.045,white);
+       }
+     }
    }
-   const sign=this.text('C  /  SLIDE UNDER');
-   sign.scale.setScalar(.42);sign.position.set(obstacle.x,obstacle.bottom+.24,front+.02);
+   const label={
+     slide:'C  /  SLIDE UNDER',hurdle:'JUMP  /  CLEAR',
+     pylon:'SLALOM',weave:'WEAVE', 'arch-beam':'PASS THROUGH',
+   }[obstacle.kind];
+   if(label){
+     const sign=this.text(label);
+     sign.scale.setScalar(.42);
+     sign.position.set(obstacle.x,obstacle.kind==='arch-beam'?obstacle.bottom-.15:obstacle.top+.35,obstacle.z+obstacle.d/2+.05);
+   }
  }
  // Architectural scenery is kept beyond the playable route.
  for(let i=2;i<20;i++){const side=i%2?1:-1;const x=side*(17+Math.sin(i*2.5+seed)*6),z=8-i*15-(seed%1)*5;const h=10+((i*13+Math.floor(seed*11))%21);this.box(volcanic?3:2.2,h,3,x,h/2-4,z,dark);if(i%3===0){this.box(1.2,h+5,2,x+side*4,(h+5)/2-4,z-3,concrete);this.box(9,.7,2,x+side*3,h*.6,z,concrete);}}
